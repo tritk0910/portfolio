@@ -49,7 +49,7 @@ export const CardContainer = ({
       <div
         className={cn("flex items-center justify-center", containerClassName)}
         style={{
-          perspective: "300px",
+          perspective: "200px",
         }}
       >
         <div
@@ -82,7 +82,7 @@ export const CardBody = ({
   return (
     <div
       className={cn(
-        "transition-all duration-300 [transform-style:preserve-3d] hover:size-72 [&>*]:[transform-style:preserve-3d]",
+        "transition-all duration-300 [transform-style:preserve-3d] [&>*]:[transform-style:preserve-3d]",
         className,
       )}
     >
@@ -140,7 +140,7 @@ export const CardItem = ({
   return (
     <Tag
       ref={ref}
-      className={cn("w-fit transition duration-200 ease-linear", className)}
+      className={cn("w-fit transition duration-200", className)}
       {...rest}
     >
       {children}

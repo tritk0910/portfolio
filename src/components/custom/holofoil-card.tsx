@@ -1,134 +1,182 @@
 "use client";
 
-import type React from "react";
-
-import { useState, useRef } from "react";
-import Image from "next/image";
 import { cn } from "@/lib/utils";
+import type React from "react";
+import { createContext, useContext, useRef, useState } from "react";
 
-interface HolofoilCardProps {
-  imagePath: string;
-  alt?: string;
-  className?: string;
-}
+const MouseEnterContext = createContext<
+  [boolean, React.Dispatch<React.SetStateAction<boolean>>] | undefined
+>(undefined);
 
-export function HolofoilCard({
-  imagePath,
-  alt = "Card image",
+export const HolofoilCard = ({
+  children,
   className,
-}: HolofoilCardProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
+  containerClassName,
+}: {
+  children?: React.ReactNode;
+  className?: string;
+  containerClassName?: string;
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const [isMouseEntered, setIsMouseEntered] = useState(false);
   const [{ x, y }, setPosition] = useState({ x: 0, y: 0 });
-  const [hovered, setHovered] = useState(false);
 
-  // Handle mouse movement
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!cardRef.current) return;
+    if (!containerRef.current) return;
+    const { left, top, width, height } =
+      containerRef.current.getBoundingClientRect();
 
-    const rect = cardRef.current.getBoundingClientRect();
+    // For 3D rotation
+    const rotateX = (e.clientX - left - width / 2) / 25;
+    const rotateY = (e.clientY - top - height / 2) / 25;
+    containerRef.current.style.transform = `rotateY(${rotateX}deg) rotateX(${rotateY}deg)`;
 
-    // Calculate position relative to card center (values from -0.5 to 0.5)
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
+    // For holographic effect position
+    const normalizedX = (e.clientX - left) / width - 0.5;
+    const normalizedY = (e.clientY - top) / height - 0.5;
+    setPosition({ x: normalizedX, y: normalizedY });
+  };
 
-    setPosition({ x, y });
+  const handleMouseEnter = () => {
+    setIsMouseEntered(true);
+    if (!containerRef.current) return;
+  };
+
+  const handleMouseLeave = () => {
+    if (!containerRef.current) return;
+    setIsMouseEntered(false);
+    containerRef.current.style.transform = `rotateY(0deg) rotateX(0deg)`;
   };
 
   return (
-    <div
-      ref={cardRef}
-      className={cn(
-        "relative cursor-pointer overflow-hidden rounded-sm transition-transform duration-200",
-        "h-full w-full transform-gpu",
-        hovered ? "scale-105" : "",
-        className,
-      )}
-      style={{
-        transformStyle: "preserve-3d",
-        transform: hovered
-          ? `rotateY(${x * 20}deg) rotateX(${y * -20}deg)`
-          : "none",
-      }}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-    >
-      {/* Card image */}
-      <div className="absolute inset-0 z-10">
-        <Image
-          src={imagePath || "/placeholder.svg"}
-          alt={alt}
-          fill
-          className="object-cover"
-          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-        />
+    <MouseEnterContext.Provider value={[isMouseEntered, setIsMouseEntered]}>
+      <div
+        className={cn("flex items-center justify-center", containerClassName)}
+        style={{
+          perspective: "120px",
+        }}
+      >
+        <div
+          ref={containerRef}
+          onMouseEnter={handleMouseEnter}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleMouseLeave}
+          className={cn(
+            "relative flex items-center justify-center transition-all duration-200 ease-linear",
+            className,
+          )}
+          style={{
+            transformStyle: "preserve-3d",
+          }}
+        >
+          {/* Original children */}
+          {children}
+
+          {/* Holographic effect overlay */}
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-0 z-10 overflow-hidden rounded-xl bg-no-repeat opacity-0 transition-opacity duration-300",
+              isMouseEntered ? "opacity-75" : "",
+            )}
+            style={{
+              background: `
+                linear-gradient(
+                  125deg,
+                  #f80e35 0%,
+                  #ff3366 10%,
+                  #eedf10 25%,
+                  #21e985 40%,
+                  #0dbde9 55%,
+                  #c929f1 70%,
+                  #f80e35 85%,
+                  #f80e35 100%
+                )
+              `,
+              backgroundSize: "400% 400%",
+              mixBlendMode: "color-dodge",
+              backgroundPosition: `${50 + x * 80}% ${50 + y * 80}%`,
+              transform: "translateZ(20px)",
+            }}
+          />
+
+          {/* Light reflection effect */}
+          {/* <div
+            className={cn(
+              "pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-xl opacity-0 transition-opacity duration-300",
+              isMouseEntered ? "opacity-100" : "",
+            )}
+            style={{
+              background:
+                "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0) 70%)",
+              backgroundSize: "150% 150%",
+              backgroundPosition: `${50 + x * 100}% ${50 + y * 100}%`,
+              mixBlendMode: "overlay",
+              transform: "translateZ(40px)",
+            }}
+          /> */}
+
+          {/* Shimmer effect */}
+          {/* <div
+            className={cn(
+              "pointer-events-none absolute inset-0 z-15 overflow-hidden rounded-xl opacity-0 transition-opacity duration-300",
+              isMouseEntered ? "opacity-60" : "",
+            )}
+            style={{
+              backgroundImage: `
+                linear-gradient(
+                  ${45 + x * 30}deg,
+                  transparent 20%, 
+                  rgba(255, 255, 255, 0.6) 45%,
+                  rgba(255, 255, 255, 0.6) 55%, 
+                  transparent 80%
+                )
+              `,
+              backgroundSize: "400% 400%",
+              backgroundPosition: `${x * 100 + 50}% ${y * 100 + 50}%`,
+              backgroundRepeat: "no-repeat",
+              mixBlendMode: "overlay",
+              animation: "shimmerEffect 1.5s ease-in-out infinite",
+              transform: "translateZ(30px)",
+            }}
+          /> */}
+
+          {/* Card border glow */}
+          <div
+            className={cn(
+              "pointer-events-none absolute inset-0 z-0 rounded-xl opacity-0 transition-opacity duration-300",
+              isMouseEntered ? "opacity-100" : "",
+            )}
+            style={{
+              background: `
+                linear-gradient(
+                  125deg,
+                  #f80e35 0%,
+                  #ff3366 10%,
+                  #eedf10 25%,
+                  #21e985 40%,
+                  #0dbde9 55%,
+                  #c929f1 70%,
+                  #f80e35 85%,
+                  #f80e35 100%
+                )
+              `,
+              backgroundSize: "300% 300%",
+              filter: "blur(16px)",
+              backgroundPosition: `${50 + x * 80}% ${50 + y * 80}%`,
+              transform: "translateZ(-20px) scale(1.05)",
+            }}
+          />
+        </div>
       </div>
-
-      {/* Holofoil effect overlay */}
-      <div
-        className={cn(
-          "absolute inset-0 z-20 opacity-0 transition-opacity duration-300",
-          hovered ? "opacity-60" : "",
-        )}
-        style={{
-          background: `
-            linear-gradient(
-              125deg,
-              #f80e35,
-              #eedf10,
-              #21e985,
-              #0dbde9,
-              #c929f1,
-              #f80e35
-            )
-          `,
-          backgroundSize: "400% 400%",
-          mixBlendMode: "color-dodge",
-          animation: "holoGradient 3s ease infinite",
-          filter: "brightness(1.2) contrast(1.2)",
-          backgroundPosition: `${50 + x * 100}% ${50 + y * 100}%`,
-        }}
-      />
-
-      {/* Light reflection effect */}
-      {/* <div
-        className={cn(
-          "absolute inset-0 z-30 opacity-0 transition-opacity duration-300",
-          hovered ? "opacity-100" : "",
-        )}
-        style={{
-          background:
-            "radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0) 70%)",
-          backgroundSize: "200% 200%",
-          backgroundPosition: `${50 + x * 100}% ${50 + y * 100}%`,
-          mixBlendMode: "overlay",
-        }}
-      /> */}
-
-      {/* Card border glow */}
-      <div
-        className={cn(
-          "absolute inset-0 z-0 rounded-sm opacity-0 transition-opacity duration-300",
-          hovered ? "opacity-100" : "",
-        )}
-        style={{
-          background: `
-            linear-gradient(
-              125deg,
-              #f80e35,
-              #eedf10,
-              #21e985,
-              #0dbde9,
-              #c929f1,
-              #f80e35
-            )
-          `,
-          backgroundSize: "400% 400%",
-          filter: "blur(15px)",
-          animation: "holoGradient 3s ease infinite",
-          transform: "scale(1.03)",
-        }}
-      />
-    </div>
+    </MouseEnterContext.Provider>
   );
-}
+};
+
+// Create a hook to use the context
+export const useMouseEnter = () => {
+  const context = useContext(MouseEnterContext);
+  if (context === undefined) {
+    throw new Error("useMouseEnter must be used within a MouseEnterProvider");
+  }
+  return context;
+};

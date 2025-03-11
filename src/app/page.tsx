@@ -340,7 +340,15 @@ export default function Home() {
                 <div className="col-span-2 w-[90%] justify-self-start rounded-xl"></div>
                 <div className="col-span-2 row-span-4 size-full rounded-3xl"></div>
                 <div className="col-span-2 row-span-4 size-full">
-                  <HolofoilCard imagePath="/imgs/joker.webp" alt="Joker card" />
+                  <HolofoilCard className="m-5">
+                    <Image
+                      width={300}
+                      height={300}
+                      className="transition-transform hover:scale-115"
+                      src="/imgs/joker.webp"
+                      alt="Joker card"
+                    />
+                  </HolofoilCard>
                 </div>
               </div>
             </Tooltip>
