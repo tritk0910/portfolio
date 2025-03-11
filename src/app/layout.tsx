@@ -26,6 +26,11 @@ const akira = localFont({
   variable: "--font-akira",
 });
 
+const balatro = localFont({
+  src: "../../public/fonts/balatro.otf",
+  variable: "--font-balatro",
+});
+
 export const metadata: Metadata = {
   title: "Neo.",
   description: "Neo's portfolio.",
@@ -39,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${space_mono.variable} ${akira.variable} antialiased`}
+        className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${space_mono.variable} ${akira.variable} ${balatro.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"

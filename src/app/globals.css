@@ -121,6 +121,7 @@
   --font-space: "Space Grotesk", sans-serif;
   --font-mono: "Space Mono", monospace;
   --font-akira: "Akira Expanded", sans-serif;
+  --font-balatro: "Balatro", sans-serif;
 }
 
 @layer base {

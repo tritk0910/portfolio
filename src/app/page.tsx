@@ -1,4 +1,7 @@
 "use client";
+import { HolofoilCard } from "@/components/custom/holofoil-card";
+import ProjectComponent from "@/components/custom/project-component";
+import { TypingAnimation } from "@/components/magicui/typing-animation";
 import { ThemeToggle } from "@/components/mode-toggle";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
@@ -11,14 +14,12 @@ import {
 import { isAvailableForWork } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
-import { Download } from "lucide-react";
+import { Download, Play } from "lucide-react";
 import Image from "next/image";
 import { ReactNode, useEffect, useState } from "react";
 import { FaDiscord, FaGithub, FaLinkedin, FaSteam } from "react-icons/fa";
 import Card from "../components/custom/card";
 import { MorphingText } from "../components/magicui/morphing-text";
-import ProjectComponent from "@/components/custom/project-component";
-import { HolofoilCard } from "@/components/custom/holofoil-card";
 
 const format = "MM/DD/YY, h:mm:ss A";
 
@@ -29,6 +30,7 @@ export default function Home() {
   );
   const [hoveredToolIndex, setHoveredToolIndex] = useState<number | null>(null);
   const [currentContext, setCurrentContext] = useState<string | null>(null);
+  const [hoveredJoker, setHoveredJoker] = useState<boolean>(false);
 
   const downloadCv = () => {
     const cv = "/downloads/cv.pdf";
@@ -290,38 +292,36 @@ export default function Home() {
         </div>
         <ProjectComponent className="col-span-2" />
         <div className="col-span-4 row-span-8">
-          <TooltipProvider>
-            <Tooltip open={hoveredToolIndex !== null} delayDuration={0}>
-              <div className="grid h-full grid-flow-col grid-cols-5 grid-rows-7 justify-items-end gap-2 gap-y-3">
-                <Card className="row-span-7 max-w-[75%]">
-                  <div className="flex h-full w-full flex-col items-center justify-center gap-3">
-                    {tools.map(
-                      ({ label, src, invertable, expandable }, index) => (
-                        <div
-                          key={index}
-                          onMouseEnter={() => setHoveredToolIndex(index)}
-                          onMouseLeave={() => {
-                            setHoveredToolIndex(null);
-                            setCurrentContext(label);
-                          }}
-                          className="aspect-square w-[3rem] overflow-hidden rounded-lg bg-zinc-800 opacity-90 transition-all duration-300 ease-in-out hover:scale-125 max-sm:max-w-[2.75rem] dark:bg-white"
-                        >
-                          <Image
-                            className={cn("aspect-square p-1.5", {
-                              "invert dark:invert-0": invertable,
-                              "p-0": expandable,
-                            })}
-                            width={500}
-                            height={500}
-                            alt={label}
-                            src={src}
-                          />
-                        </div>
-                      ),
-                    )}
+          <div className="grid h-full grid-flow-col grid-cols-5 grid-rows-7 justify-items-end gap-2 gap-y-3">
+            <Card className="row-span-7 max-w-[75%]">
+              <div className="flex h-full w-full flex-col items-center justify-center gap-3">
+                {tools.map(({ label, src, invertable, expandable }, index) => (
+                  <div
+                    key={index}
+                    onMouseEnter={() => setHoveredToolIndex(index)}
+                    onMouseLeave={() => {
+                      setHoveredToolIndex(null);
+                      setCurrentContext(label);
+                    }}
+                    className="aspect-square w-[3rem] overflow-hidden rounded-lg bg-zinc-800 opacity-90 transition-all duration-300 ease-in-out hover:scale-125 max-sm:max-w-[2.75rem] dark:bg-white"
+                  >
+                    <Image
+                      className={cn("aspect-square p-1.5", {
+                        "invert dark:invert-0": invertable,
+                        "p-0": expandable,
+                      })}
+                      width={500}
+                      height={500}
+                      alt={label}
+                      src={src}
+                    />
                   </div>
-                </Card>
-                <div className="col-span-2 row-span-2 w-full">
+                ))}
+              </div>
+            </Card>
+            <div className="col-span-2 row-span-2 w-full">
+              <TooltipProvider>
+                <Tooltip open={hoveredToolIndex !== null} delayDuration={0}>
                   <div className="flex flex-col font-mono text-wrap break-words">
                     <p className="text-4xl font-extrabold uppercase">Daily</p>{" "}
                     <TooltipTrigger asChild>
@@ -336,23 +336,63 @@ export default function Home() {
                     </TooltipContent>
                     <p className="text-5xl font-extrabold uppercase">Stack.</p>
                   </div>
-                </div>
-                <div className="col-span-2 w-[90%] justify-self-start rounded-xl"></div>
-                <div className="col-span-2 row-span-4 size-full rounded-3xl"></div>
-                <div className="col-span-2 row-span-4 size-full">
-                  <HolofoilCard className="m-5">
-                    <Image
-                      width={300}
-                      height={300}
-                      className="transition-transform hover:scale-115"
-                      src="/imgs/joker.webp"
-                      alt="Joker card"
-                    />
-                  </HolofoilCard>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+            <div className="col-span-2 w-[90%] justify-self-start overflow-hidden rounded-xl">
+              <Image
+                width={300}
+                height={300}
+                alt="watch-tower"
+                className="relative bottom-5"
+                src="/imgs/watchtower.png"
+              />
+            </div>
+            <div className="group relative col-span-2 row-span-3 size-full overflow-hidden rounded-3xl">
+              <Image
+                width={300}
+                height={300}
+                alt="spotify"
+                src="/imgs/spotify.jpg"
+              />
+              <div className="absolute right-0 bottom-0 m-3 translate-y-14 scale-0 opacity-0 transition group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
+                <div className="rounded-full border border-zinc-700 bg-zinc-900 p-[1px]">
+                  <div className="rounded-full border border-zinc-500 p-2">
+                    <Play className="size-4 fill-white stroke-white" />
+                  </div>
                 </div>
               </div>
-            </Tooltip>
-          </TooltipProvider>
+            </div>
+            <div className="col-span-2 row-span-1 size-full rounded-xl"></div>
+            <div className="col-span-2 row-span-4 size-full">
+              <TooltipProvider>
+                <Tooltip open={hoveredJoker} delayDuration={0}>
+                  <TooltipTrigger
+                    onMouseEnter={() => setHoveredJoker(true)}
+                    onMouseLeave={() => setHoveredJoker(false)}
+                  >
+                    <HolofoilCard className="m-5">
+                      <Image
+                        width={300}
+                        height={300}
+                        className="transition-transform hover:scale-115"
+                        src="/imgs/joker.webp"
+                        alt="Joker card"
+                      />
+                    </HolofoilCard>
+                  </TooltipTrigger>
+                  <TooltipContent side="right">
+                    <TypingAnimation
+                      duration={30}
+                      className="font-balatro text-base"
+                    >
+                      the polychrome effect on me is pretty cool, huh?
+                    </TypingAnimation>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
+          </div>
         </div>
       </div>
     </div>
