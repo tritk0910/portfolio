@@ -9,15 +9,13 @@ export default function ProjectComponent({
   return (
     <div className={cn("group z-50", className)}>
       <CardContainer className="inter-var">
-        <CardBody className="relative size-60">
+        <CardBody className="relative">
           <CardItem
             translateZ="30"
-            className="absolute inset-0 overflow-hidden rounded-lg"
+            className="overflow-hidden rounded-lg max-md:max-h-[200px]"
           >
             <video
               className="pointer-events-none transition"
-              width="500"
-              height="500"
               preload="none"
               autoPlay
               loop

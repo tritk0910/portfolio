@@ -53,7 +53,7 @@ export const HolofoilCard = ({
       <div
         className={cn("flex items-center justify-center", containerClassName)}
         style={{
-          perspective: "120px",
+          perspective: "220px",
         }}
       >
         <div

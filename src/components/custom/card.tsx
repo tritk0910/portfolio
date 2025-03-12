@@ -2,20 +2,27 @@
 import { cn } from "@/lib/utils";
 import { HTMLAttributes } from "react";
 
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
+  innerClassName?: string;
+}
+
 export default function Card({
   className,
+  innerClassName,
   children,
   ...props
-}: HTMLAttributes<HTMLDivElement>) {
+}: CardProps) {
   return (
     <div
       {...props}
       className={cn(
-        "border-muted flex h-full w-full flex-col justify-between rounded-2xl border p-[1px] backdrop-blur-lg",
+        "border-muted flex size-full flex-col justify-between rounded-2xl border p-px backdrop-blur-lg",
         className,
       )}
     >
-      <div className="h-full rounded-xl border">{children}</div>
+      <div className={cn("size-full rounded-xl border", innerClassName)}>
+        {children}
+      </div>
     </div>
   );
 }

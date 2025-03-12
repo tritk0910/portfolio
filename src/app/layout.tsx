@@ -1,6 +1,10 @@
-import BeamsBackground from "@/components/custom/beams-background";
 import type { Metadata } from "next";
-import { Recursive, Space_Grotesk, Space_Mono } from "next/font/google";
+import {
+  Montserrat,
+  Recursive,
+  Space_Grotesk,
+  Space_Mono,
+} from "next/font/google";
 import localFont from "next/font/local";
 import MaxWidthCenteredComponent from "../components/custom/max-width-centered";
 import { ThemeProvider } from "../components/theme-provider";
@@ -11,11 +15,19 @@ const space_grotesk = Space_Grotesk({
   subsets: ["latin", "vietnamese"],
   variable: "--font-space",
 });
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-montserrat",
+});
+
 const space_mono = Space_Mono({
   subsets: ["latin"],
   weight: ["400"],
   variable: "--font-mono",
 });
+
 const digital = localFont({
   src: "../../public/fonts/digital-7.ttf",
   variable: "--font-digital",
@@ -49,7 +61,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${space_mono.variable} ${circular.variable} ${akira.variable} ${balatro.variable} antialiased`}
+        className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${montserrat.variable} ${space_mono.variable} ${circular.variable} ${akira.variable} ${balatro.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"
@@ -57,9 +69,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <BeamsBackground>
-            <MaxWidthCenteredComponent>{children}</MaxWidthCenteredComponent>
-          </BeamsBackground>
+          {/* máy k đủ mạnh thì đừng xài, nó lag vãi lz */}
+          {/* <BeamsBackground> */}
+          <MaxWidthCenteredComponent>{children}</MaxWidthCenteredComponent>
+          {/* </BeamsBackground> */}
         </ThemeProvider>
       </body>
     </html>
