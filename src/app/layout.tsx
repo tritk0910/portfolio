@@ -31,6 +31,11 @@ const balatro = localFont({
   variable: "--font-balatro",
 });
 
+const circular = localFont({
+  src: "../../public/fonts/CircularSpUIAra-Bold.otf",
+  variable: "--font-circular",
+});
+
 export const metadata: Metadata = {
   title: "Neo.",
   description: "Neo's portfolio.",
@@ -44,7 +49,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body
-        className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${space_mono.variable} ${akira.variable} ${balatro.variable} antialiased`}
+        className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${space_mono.variable} ${circular.variable} ${akira.variable} ${balatro.variable} antialiased`}
       >
         <ThemeProvider
           attribute="class"

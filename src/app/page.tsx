@@ -11,7 +11,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { isAvailableForWork } from "@/lib/constant";
+import { isAvailableForWork, musicUrl } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { Download, Play } from "lucide-react";
@@ -353,17 +353,35 @@ export default function Home() {
                 width={300}
                 height={300}
                 alt="spotify"
-                src="/imgs/spotify.jpg"
+                src={musicUrl.thumbnail}
               />
-              <div className="absolute right-0 bottom-0 m-3 translate-y-14 scale-0 opacity-0 transition group-hover:translate-y-0 group-hover:scale-100 group-hover:opacity-100">
-                <div className="rounded-full border border-zinc-700 bg-zinc-900 p-[1px]">
+              <a
+                href={musicUrl.url}
+                target="_blank"
+                className="absolute right-0 bottom-0 m-3 translate-x-2 translate-y-7 scale-50 opacity-0 transition duration-300 group-hover:translate-0 group-hover:scale-100 group-hover:opacity-100"
+              >
+                <div className="rounded-full border border-zinc-700 bg-zinc-900/70 p-[1px]">
                   <div className="rounded-full border border-zinc-500 p-2">
                     <Play className="size-4 fill-white stroke-white" />
                   </div>
                 </div>
+              </a>
+            </div>
+            <div className="col-span-2 row-span-1 size-full rounded-xl">
+              <a
+                href={musicUrl.url}
+                target="_blank"
+                className="font-circular text-2xl font-extrabold"
+              >
+                {musicUrl.title}
+              </a>
+              <div className="flex justify-between text-xs">
+                <span className="text-muted-foreground">{musicUrl.artist}</span>
+                <span className="text-muted-foreground font-mono">
+                  {musicUrl.year}
+                </span>
               </div>
             </div>
-            <div className="col-span-2 row-span-1 size-full rounded-xl"></div>
             <div className="col-span-2 row-span-4 size-full">
               <TooltipProvider>
                 <Tooltip open={hoveredJoker} delayDuration={0}>

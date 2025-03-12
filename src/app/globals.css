@@ -122,6 +122,7 @@
   --font-mono: "Space Mono", monospace;
   --font-akira: "Akira Expanded", sans-serif;
   --font-balatro: "Balatro", sans-serif;
+  --font-circular: "CircularSp", sans-serif;
 }
 
 @layer base {
