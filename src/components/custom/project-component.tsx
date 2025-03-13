@@ -28,7 +28,7 @@ export default function ProjectComponent({
             translateZ="50"
             className="absolute inset-0 flex w-full items-center justify-center"
           >
-            <span className="font-akira text-2xl text-white select-none">
+            <span className="font-akira text-xl text-white select-none max-md:text-2xl lg:text-2xl">
               my works
             </span>
           </CardItem>

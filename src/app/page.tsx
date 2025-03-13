@@ -2,36 +2,27 @@
 import { CustomTooltipContent } from "@/components/custom/custom-tooltip";
 import { DraggableHolofoilCard } from "@/components/custom/draggable-holofoil-card";
 import ProjectComponent from "@/components/custom/project-component";
+import Status from "@/components/layout/status";
+import TechStack from "@/components/layout/techstack";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { Ripple } from "@/components/magicui/ripple";
 import { TypingAnimation } from "@/components/magicui/typing-animation";
-import { ThemeToggle } from "@/components/mode-toggle";
-import { Badge } from "@/components/ui/badge";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import {
-  isAvailableForWork,
-  links,
-  musicUrl,
-  techStacks,
-  tools,
-} from "@/lib/constant";
+import { links, musicUrl, tools } from "@/lib/constant";
 import { cn } from "@/lib/utils";
-import dayjs from "dayjs";
-import { Download, Play } from "lucide-react";
+import { motion } from "framer-motion";
+import { Play } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import Card from "../components/custom/card";
-import { MorphingText } from "../components/magicui/morphing-text";
-
-const format = "MM/DD/YY, h:mm:ss A";
+import { useMediaQuery } from "react-responsive";
 
 export default function Home() {
-  const [currentTime, setCurrentTime] = useState<string | null>(null);
   const [hoveredButtonIndex, setHoveredButtonIndex] = useState<number | null>(
     null,
   );
@@ -40,21 +31,7 @@ export default function Home() {
   const [hoveredJoker, setHoveredJoker] = useState<boolean>(false);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const [isAnimating, setIsAnimating] = useState<boolean>(false);
-
-  const downloadCv = () => {
-    const cv = "/downloads/cv.pdf";
-    const link = document.createElement("a");
-    link.href = cv;
-    link.download = "resume.pdf";
-    link.click();
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(dayjs().format(format));
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+  const isAboveMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
   return (
     <div className="relative flex min-h-screen w-full items-center justify-center rounded-lg p-4 md:overflow-hidden">
@@ -68,106 +45,31 @@ export default function Home() {
         )}
       />
       <div className="mx-auto grid size-full max-h-screen max-w-[1000px] gap-2 md:max-h-[80vh] md:grid-cols-8 md:grid-rows-10 lg:gap-3">
-        <Card
-          className="group/card min-h-0 font-mono md:col-span-2 md:row-span-8"
-          innerClassName="flex flex-col overflow-y-hidden"
+        <motion.div
+          className="md:col-span-2 md:row-span-8"
+          initial={{ translateX: isAboveMobile ? -50 : 0, opacity: 0 }}
+          whileInView={{ translateX: 0, opacity: 1 }}
+          transition={{ duration: 0.75 }}
+          viewport={{ once: true }}
         >
-          <div>
-            <div className="p-3 text-5xl leading-12 font-bold uppercase">
-              <h1 className="pb-2 text-4xl">
-                <span className="pr-1">{"{"}</span>
-                <span className="transition-all group-hover/card:pl-3">
-                  {"}"}
-                </span>
-              </h1>
-              <p className="whitespace-pre-line">Tech {"\n"}Stack</p>
-            </div>
-            <div className="h-1 w-0 rounded-lg bg-white transition-all duration-500 group-hover/card:w-[80%]" />
-          </div>
-          <div className="overflow-y-auto">
-            {Object.entries(techStacks[0]).map(([category, technologies]) => (
-              <div key={category} className="font-space p-4">
-                <h2>{category}:</h2>
-                <div className="flex flex-wrap gap-2">
-                  {technologies.map((tech, index) => (
-                    <Badge variant="secondary" key={index}>
-                      {tech}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-        <Card className="max-md:row-start-1 md:col-span-4 md:row-span-4">
-          <div className="flex h-full flex-col justify-between p-3 max-md:min-h-72">
-            <div>
-              <div className="flex items-start justify-between gap-5">
-                <div className="flex items-center gap-4">
-                  <Image
-                    width={60}
-                    height={60}
-                    src={"/imgs/avatar.jpg"}
-                    alt="avatar"
-                    className="rounded-full"
-                  />
-                  <div className="flex flex-col">
-                    <p className="text-lg font-bold">Neo.</p>
-                    <p className="text-zinc-500">_zos</p>
-                  </div>
-                </div>
-                <ThemeToggle />
-              </div>
-              <div className="mt-5 flex flex-col">
-                <div className="flex justify-start gap-2 text-[18pt] text-nowrap">
-                  I build{" "}
-                  <MorphingText
-                    className="relative top-1.5 !h-10 !text-[18pt]"
-                    texts={["Frontends", "Backends", "WebApps"]}
-                  />
-                </div>
-                <div className="mt-2 flex gap-2 text-[10pt] whitespace-pre-line">
-                  Hello! My name is Khai Tri! {"\n"}a 22 year old developer from
-                  Vietnam.
-                </div>
-              </div>
-            </div>
-            <div className="font-space flex items-center justify-between">
-              <div className="flex flex-col gap-2">
-                <div className="text-muted-foreground font-mono text-[10px] whitespace-pre-line">
-                  &quot;How do I center {"\n"}a div again??&quot;
-                </div>
-                <div className="flex gap-3">
-                  <button
-                    onClick={downloadCv}
-                    className="cursor-pointer transition-transform hover:scale-125"
-                  >
-                    <Download className="size-4" />
-                  </button>
-                </div>
-              </div>
-              <div className="flex flex-col items-end text-end">
-                <div className="text-muted-foreground flex items-center gap-2 text-xs">
-                  {isAvailableForWork ? (
-                    <StatusIndicator
-                      className={cn("size-2 rounded-full bg-green-500")}
-                      text="Available for work"
-                    />
-                  ) : (
-                    <StatusIndicator
-                      className={cn("size-2 rounded-full bg-red-500")}
-                      text="Not available right now"
-                    />
-                  )}
-                </div>
-                <div className="text-muted-foreground/50 font-digital flex items-center gap-2 text-sm">
-                  {currentTime}
-                </div>
-              </div>
-            </div>
-          </div>
-        </Card>
-        <div className="max-md:row-start-2 md:col-span-2 md:row-span-2">
+          <TechStack />
+        </motion.div>
+        <motion.div
+          className="max-md:row-start-1 md:col-span-4 md:row-span-4"
+          initial={{ translateY: isAboveMobile ? -50 : 0, opacity: 0 }}
+          whileInView={{ translateY: 0, opacity: 1 }}
+          transition={{ duration: 0.75 }}
+          viewport={{ once: true }}
+        >
+          <Status />
+        </motion.div>
+        <motion.div
+          className="max-md:row-start-2 md:col-span-2 md:row-span-2"
+          initial={{ translateX: isAboveMobile ? 50 : 0, opacity: 0 }}
+          whileInView={{ translateX: 0, opacity: 1 }}
+          transition={{ duration: 0.75 }}
+          viewport={{ once: true }}
+        >
           <TooltipProvider>
             <Tooltip open={hoveredButtonIndex !== null} delayDuration={0}>
               <div className="relative mx-auto flex gap-1 max-md:justify-center md:grid md:grid-cols-[repeat(3,60px)] md:grid-rows-[repeat(2,60px)]">
@@ -200,9 +102,23 @@ export default function Home() {
               </div>
             </Tooltip>
           </TooltipProvider>
-        </div>
-        <ProjectComponent className="md:col-span-2" />
-        <div className="md:col-span-4 md:row-span-8">
+        </motion.div>
+        <motion.div
+          className="md:col-span-2"
+          initial={{ translateX: isAboveMobile ? 50 : 0, opacity: 0 }}
+          whileInView={{ translateX: 0, opacity: 1 }}
+          transition={{ duration: 0.75 }}
+          viewport={{ once: true }}
+        >
+          <ProjectComponent />
+        </motion.div>
+        <motion.div
+          className="md:col-span-4 md:row-span-8"
+          initial={{ translateY: isAboveMobile ? 50 : 0, opacity: 0 }}
+          whileInView={{ translateY: 0, opacity: 1 }}
+          transition={{ duration: 0.75 }}
+          viewport={{ once: true }}
+        >
           <div className="grid h-full justify-items-center gap-2 gap-y-3 md:grid-flow-col md:grid-cols-5 md:grid-rows-7 md:justify-items-end">
             <Card
               className="w-fit max-md:overflow-x-auto md:row-span-7"
@@ -354,20 +270,8 @@ export default function Home() {
               Peace out.
             </span>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
 }
-
-const StatusIndicator = ({
-  className,
-  text,
-}: {
-  className: string;
-  text: string;
-}) => (
-  <>
-    <span className={className} /> {text}
-  </>
-);
