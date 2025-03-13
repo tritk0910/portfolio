@@ -1,6 +1,6 @@
 "use client";
 import { CustomTooltipContent } from "@/components/custom/custom-tooltip";
-import { HolofoilCard } from "@/components/custom/holofoil-card";
+import { DraggableHolofoilCard } from "@/components/custom/draggable-holofoil-card";
 import ProjectComponent from "@/components/custom/project-component";
 import { AnimatedGridPattern } from "@/components/magicui/animated-grid-pattern";
 import { Ripple } from "@/components/magicui/ripple";
@@ -31,13 +31,15 @@ import { MorphingText } from "../components/magicui/morphing-text";
 const format = "MM/DD/YY, h:mm:ss A";
 
 export default function Home() {
-  const [currentTime, setCurrentTime] = useState(dayjs().format(format));
+  const [currentTime, setCurrentTime] = useState<string | null>(null);
   const [hoveredButtonIndex, setHoveredButtonIndex] = useState<number | null>(
     null,
   );
   const [hoveredToolIndex, setHoveredToolIndex] = useState<number | null>(null);
   const [currentContext, setCurrentContext] = useState<string | null>(null);
   const [hoveredJoker, setHoveredJoker] = useState<boolean>(false);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isAnimating, setIsAnimating] = useState<boolean>(false);
 
   const downloadCv = () => {
     const cv = "/downloads/cv.pdf";
@@ -303,8 +305,17 @@ export default function Home() {
             </div>
             <div className="row-span-4 size-full max-md:hidden md:col-span-2">
               <TooltipProvider>
-                <Tooltip open={hoveredJoker} delayDuration={0}>
-                  <HolofoilCard className="m-3">
+                <Tooltip
+                  open={hoveredJoker && !isDragging && !isAnimating}
+                  delayDuration={0}
+                >
+                  <DraggableHolofoilCard
+                    id="joker-card"
+                    className="m-3"
+                    isDragging={isDragging}
+                    setIsDragging={setIsDragging}
+                    setIsAnimating={setIsAnimating}
+                  >
                     <TooltipTrigger
                       asChild
                       onMouseEnter={() => setHoveredJoker(true)}
@@ -318,7 +329,7 @@ export default function Home() {
                         alt="Joker card"
                       />
                     </TooltipTrigger>
-                  </HolofoilCard>
+                  </DraggableHolofoilCard>
                   <CustomTooltipContent side="right">
                     <TypingAnimation
                       duration={30}
