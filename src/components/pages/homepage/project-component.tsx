@@ -1,5 +1,6 @@
 import { cn } from "@/lib/utils";
-import { CardBody, CardContainer, CardItem } from "../ui/3d-card";
+import Link from "next/link";
+import { CardBody, CardContainer, CardItem } from "../../ui/3d-card";
 
 export default function ProjectComponent({
   className,
@@ -7,7 +8,7 @@ export default function ProjectComponent({
   className?: string;
 }) {
   return (
-    <div className={cn("group z-50", className)}>
+    <Link href={"/works"} className={cn("group z-50", className)}>
       <CardContainer className="inter-var">
         <CardBody className="relative">
           <CardItem
@@ -34,6 +35,6 @@ export default function ProjectComponent({
           </CardItem>
         </CardBody>
       </CardContainer>
-    </div>
+    </Link>
   );
 }

@@ -11,8 +11,9 @@ import {
   useSensors,
 } from "@dnd-kit/core";
 import { CSS } from "@dnd-kit/utilities";
-import { HolofoilCard } from "./holofoil-card";
 import { useEffect } from "react";
+import { HolofoilCard } from "./holofoil-card";
+import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 
 interface DraggableProps {
   id: string;
@@ -110,6 +111,7 @@ export function DraggableHolofoilCard({
       sensors={sensors}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      modifiers={[restrictToWindowEdges]}
     >
       <Draggable
         setIsDragging={setIsDragging}

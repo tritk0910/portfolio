@@ -1,6 +1,6 @@
 import { techStacks } from "@/lib/constant";
-import Card from "../custom/card";
-import { Badge } from "../ui/badge";
+import Card from "../../custom/card";
+import { Badge } from "../../ui/badge";
 
 export default function TechStack() {
   return (

@@ -1,14 +1,12 @@
-import { isAvailableForWork } from "@/lib/constant";
+import { format, isAvailableForWork } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { Download } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import Card from "../custom/card";
-import { MorphingText } from "../magicui/morphing-text";
-import { ThemeToggle } from "../mode-toggle";
-
-const format = "MM/DD/YY, h:mm:ss A";
+import Card from "../../custom/card";
+import { MorphingText } from "../../magicui/morphing-text";
+import { ThemeToggle } from "../../mode-toggle";
 
 export default function Status() {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
@@ -47,7 +45,7 @@ export default function Status() {
             </div>
             <ThemeToggle />
           </div>
-          <div className="mt-5 flex flex-col">
+          <div className="flex flex-col">
             <div className="flex justify-start gap-2 text-[18pt] text-nowrap">
               I build{" "}
               <MorphingText
