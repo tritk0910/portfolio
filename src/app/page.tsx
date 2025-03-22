@@ -17,7 +17,7 @@ export default function Home() {
   const isAboveMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
   return (
-    <div className="relative flex min-h-screen w-full items-center justify-center rounded-lg p-4 md:overflow-hidden">
+    <div className="relative flex min-h-screen w-full items-center justify-center rounded-lg p-4">
       <AnimatedGridPattern
         numSquares={20}
         maxOpacity={0.3}

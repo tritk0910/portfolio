@@ -1,5 +1,6 @@
+"use client";
+import TransitionLink from "@/components/custom/transition-link";
 import { cn } from "@/lib/utils";
-import Link from "next/link";
 import { CardBody, CardContainer, CardItem } from "../../ui/3d-card";
 
 export default function ProjectComponent({
@@ -8,7 +9,7 @@ export default function ProjectComponent({
   className?: string;
 }) {
   return (
-    <Link href={"/works"} className={cn("group z-50", className)}>
+    <TransitionLink href={"/works"} className={cn("group z-50", className)}>
       <CardContainer className="inter-var">
         <CardBody className="relative">
           <CardItem
@@ -35,6 +36,6 @@ export default function ProjectComponent({
           </CardItem>
         </CardBody>
       </CardContainer>
-    </Link>
+    </TransitionLink>
   );
 }

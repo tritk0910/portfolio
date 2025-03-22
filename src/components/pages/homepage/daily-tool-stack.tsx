@@ -1,8 +1,9 @@
+"use client";
+import TransitionLink from "@/components/custom/transition-link";
 import { musicUrl, tools } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import { Play } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 import Card from "../../custom/card";
 import { CustomTooltipContent } from "../../custom/custom-tooltip";
@@ -169,7 +170,7 @@ export default function DailyToolStack({
             </Tooltip>
           </TooltipProvider>
         </div>
-        <Link
+        <TransitionLink
           href={"/timelines"}
           className="relative row-span-3 flex size-full cursor-pointer items-center justify-center overflow-hidden rounded-xl transition-all hover:scale-95 max-md:min-h-[300px] md:col-span-2"
         >
@@ -177,7 +178,7 @@ export default function DailyToolStack({
             Timelines
           </p>
           <Ripple mainCircleSize={80} mainCircleOpacity={0.4} />
-        </Link>
+        </TransitionLink>
       </div>
       <div className="mx-auto w-[80%] py-5 text-end md:hidden">
         <div className="bg-muted-foreground dark:bg-muted h-px" />

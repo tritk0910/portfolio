@@ -1,3 +1,4 @@
+"use client";
 import { format, isAvailableForWork } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";

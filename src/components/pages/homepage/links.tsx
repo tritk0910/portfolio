@@ -1,3 +1,4 @@
+"use client";
 import { links } from "@/lib/constant";
 import { useState } from "react";
 import {
