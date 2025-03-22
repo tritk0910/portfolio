@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import Card from "../../custom/card";
 import { MorphingText } from "../../magicui/morphing-text";
-import { ThemeToggle } from "../../mode-toggle";
+import { ThemeToggle } from "../../audio-toggle";
 
 export default function Status() {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
@@ -30,16 +30,16 @@ export default function Status() {
     <Card>
       <div className="flex h-full flex-col justify-between p-3 max-md:min-h-72 md:p-5">
         <div>
-          <div className="flex items-start justify-between gap-5">
+          <div className="flex items-start justify-between gap-5 pb-3">
             <div className="flex items-center gap-4">
               <Image
-                width={60}
-                height={60}
+                width={50}
+                height={50}
                 src={"/imgs/avatar.jpg"}
                 alt="avatar"
                 className="rounded-full"
               />
-              <div className="flex flex-col">
+              <div className="flex flex-col leading-none">
                 <p className="text-lg font-bold">Neo.</p>
                 <p className="text-zinc-500">_zos</p>
               </div>

@@ -2,6 +2,7 @@
 import { techStacks } from "@/lib/constant";
 import Card from "../../custom/card";
 import { Badge } from "../../ui/badge";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 export default function TechStack() {
   return (
@@ -17,7 +18,7 @@ export default function TechStack() {
         <p className="whitespace-pre-line">Tech {"\n"}Stack</p>
       </div>
       <div className="h-1 w-0 rounded-lg bg-white transition-all duration-500 group-hover/card:w-[80%]" />
-      <div className="overflow-y-auto">
+      <ScrollArea className="overflow-y-auto">
         {Object.entries(techStacks[0]).map(([category, technologies]) => (
           <div key={category} className="font-space p-4">
             <h2>{category}:</h2>
@@ -30,7 +31,7 @@ export default function TechStack() {
             </div>
           </div>
         ))}
-      </div>
+      </ScrollArea>
     </Card>
   );
 }

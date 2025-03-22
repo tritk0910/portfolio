@@ -6,10 +6,7 @@ import { Play } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 import Card from "../../custom/card";
-import { CustomTooltipContent } from "../../custom/custom-tooltip";
-import { DraggableHolofoilCard } from "../../custom/draggable-holofoil-card";
 import { Ripple } from "../../magicui/ripple";
-import { TypingAnimation } from "../../magicui/typing-animation";
 import {
   Tooltip,
   TooltipContent,
@@ -26,9 +23,6 @@ export default function DailyToolStack({
   setCurrentContext,
   currentContext,
 }: DailyToonStackProps) {
-  const [hoveredJoker, setHoveredJoker] = useState<boolean>(false);
-  const [isDragging, setIsDragging] = useState<boolean>(false);
-  const [isAnimating, setIsAnimating] = useState<boolean>(false);
   const [hoveredToolIndex, setHoveredToolIndex] = useState<number | null>(null);
 
   return (
@@ -47,11 +41,11 @@ export default function DailyToolStack({
                   setHoveredToolIndex(null);
                   setCurrentContext(label);
                 }}
-                className="aspect-square shrink-0 overflow-hidden rounded-lg bg-zinc-800 opacity-90 transition-all duration-300 ease-in-out hover:scale-125 dark:bg-white"
+                className="aspect-square shrink-0 overflow-hidden rounded-lg bg-white opacity-90 transition-all duration-300 ease-in-out hover:scale-125"
               >
                 <Image
                   className={cn("aspect-square p-1.5", {
-                    "invert dark:invert-0": invertable,
+                    "invert-0": invertable,
                     "p-0": expandable,
                   })}
                   width={500}
@@ -132,44 +126,7 @@ export default function DailyToolStack({
             </span>
           </div>
         </div>
-        <div className="row-span-4 size-full max-md:hidden md:col-span-2">
-          <TooltipProvider>
-            <Tooltip
-              open={hoveredJoker && !isDragging && !isAnimating}
-              delayDuration={0}
-            >
-              <DraggableHolofoilCard
-                id="joker-card"
-                className="m-3"
-                isDragging={isDragging}
-                setIsDragging={setIsDragging}
-                setIsAnimating={setIsAnimating}
-              >
-                <TooltipTrigger
-                  asChild
-                  onMouseEnter={() => setHoveredJoker(true)}
-                  onMouseLeave={() => setHoveredJoker(false)}
-                >
-                  <Image
-                    width={300}
-                    height={300}
-                    className="transition-transform hover:scale-115"
-                    src="/imgs/joker.webp"
-                    alt="Joker card"
-                  />
-                </TooltipTrigger>
-              </DraggableHolofoilCard>
-              <CustomTooltipContent side="right">
-                <TypingAnimation
-                  duration={30}
-                  className="font-balatro text-base"
-                >
-                  I&apos;m here for fun
-                </TypingAnimation>
-              </CustomTooltipContent>
-            </Tooltip>
-          </TooltipProvider>
-        </div>
+        <div className="row-span-4 size-full max-md:hidden md:col-span-2"></div>
         <TransitionLink
           href={"/timelines"}
           className="relative row-span-3 flex size-full cursor-pointer items-center justify-center overflow-hidden rounded-xl transition-all hover:scale-95 max-md:min-h-[300px] md:col-span-2"

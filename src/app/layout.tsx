@@ -6,8 +6,6 @@ import {
   Space_Mono,
 } from "next/font/google";
 import localFont from "next/font/local";
-import MaxWidthCenteredComponent from "../components/custom/max-width-centered";
-import { ThemeProvider } from "../components/theme-provider";
 import "./globals.css";
 
 const recursive = Recursive({ subsets: ["latin"] });
@@ -53,27 +51,32 @@ export const metadata: Metadata = {
   description: "Neo's portfolio.",
 };
 
+const randomizeVideoBackground = () => {
+  const urlPath = "/video/video-";
+  const randomNumber = Math.floor(Math.random() * 3) + 1;
+  return `${urlPath}${randomNumber}.mp4`;
+};
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" suppressHydrationWarning className="no-scrollbar">
       <body
         className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${montserrat.variable} ${space_mono.variable} ${circular.variable} ${akira.variable} ${balatro.variable} antialiased`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          enableSystem
-          disableTransitionOnChange
-        >
-          {/* máy k đủ mạnh thì đừng xài, nó lag vãi lz */}
-          {/* <BeamsBackground> */}
-          <MaxWidthCenteredComponent>{children}</MaxWidthCenteredComponent>
-          {/* </BeamsBackground> */}
-        </ThemeProvider>
+        {children}
+        <div className="fixed inset-0 -z-10 max-w-screen overflow-hidden">
+          <video
+            src={randomizeVideoBackground()}
+            muted
+            autoPlay
+            loop
+            className="size-full object-cover object-center opacity-50"
+          />
+        </div>
       </body>
     </html>
   );

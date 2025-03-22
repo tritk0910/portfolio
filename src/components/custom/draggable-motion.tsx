@@ -10,10 +10,8 @@ import {
 } from "@dnd-kit/core";
 import { restrictToWindowEdges } from "@dnd-kit/modifiers";
 import { CSS } from "@dnd-kit/utilities";
-import type { HTMLMotionProps } from "framer-motion";
-import { motion } from "framer-motion";
 import type React from "react";
-import { useEffect, useState } from "react";
+import { PropsWithChildren, useEffect, useState } from "react";
 import { useMediaQuery } from "react-responsive";
 
 interface DraggableProps {
@@ -55,7 +53,7 @@ function Draggable({ id, children, className, setIsDragging }: DraggableProps) {
   );
 }
 
-interface DraggableMotionProps extends HTMLMotionProps<"div"> {
+interface DraggableMotionProps extends PropsWithChildren {
   id: string;
   className?: string;
   disableDraggingOnMobile?: boolean;
@@ -68,7 +66,6 @@ export function DraggableMotion({
   className,
   disableDraggingOnMobile = true,
   onDragStateChange,
-  ...motionProps
 }: DraggableMotionProps) {
   const isAboveMobile = useMediaQuery({ query: "(min-width: 768px)" });
   const enableDragging = !disableDraggingOnMobile || isAboveMobile;
@@ -90,19 +87,13 @@ export function DraggableMotion({
 
   // If dragging is disabled or on mobile, just render the motion.div without dragging
   if (!enableDragging) {
-    return (
-      <motion.div className={className} {...motionProps}>
-        {children}
-      </motion.div>
-    );
+    return <div className={className}>{children}</div>;
   }
 
   return (
     <DndContext sensors={sensors} modifiers={[restrictToWindowEdges]}>
       <Draggable id={id} className={className} setIsDragging={setIsDragging}>
-        <motion.div {...motionProps} className="size-full">
-          {children}
-        </motion.div>
+        <div className="size-full">{children}</div>
       </Draggable>
     </DndContext>
   );
