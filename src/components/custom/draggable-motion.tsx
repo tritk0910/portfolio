@@ -35,7 +35,7 @@ function Draggable({ id, children, className, setIsDragging }: DraggableProps) {
   const style = {
     transform: CSS.Translate.toString(transform),
     transition: transform ? undefined : "transform 250ms ease-in-out",
-    zIndex: transform ? 50 : 0,
+    zIndex: transform ? 10000 : 0,
     position: "relative" as const,
     touchAction: "none",
   };

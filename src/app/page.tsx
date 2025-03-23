@@ -4,7 +4,8 @@ import DailyToolStack from "@/components/pages/homepage/daily-tool-stack";
 import Links from "@/components/pages/homepage/links";
 import Status from "@/components/pages/homepage/status";
 import TechStack from "@/components/pages/homepage/techstack";
-import { useState, useCallback, memo } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
+import { MouseParallaxChild } from "react-parallax-mouse";
 // import { useMediaQuery } from "react-responsive";
 
 const MemoizedLinks = memo(Links);
@@ -13,75 +14,60 @@ const MemoizedDailyToolStack = memo(DailyToolStack);
 export default function Home() {
   const [currentContext, setCurrentContext] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [isClient, setIsClient] = useState<boolean>(false);
   // const isAboveMobile = useMediaQuery({ query: "(min-width: 768px)" });
 
   const handleDragStateChange = useCallback((dragging: boolean) => {
     setIsDragging(dragging);
   }, []);
 
+  // Fix for SSR
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
-    <>
-      <div className="relative flex min-h-screen w-full flex-col items-center justify-center rounded-lg p-4">
-        <div className="mx-auto grid size-full max-h-screen max-w-[1000px] gap-2 md:max-h-[80vh] md:grid-cols-8 md:grid-rows-5 lg:gap-3">
-          <DraggableMotion
-            id="tech-stack"
-            className="md:col-span-2 md:row-span-4"
-            // initial={{ translateX: isAboveMobile ? -50 : 0, opacity: 0 }}
-            // whileInView={{ translateX: 0, opacity: 1 }}
-            // transition={{ duration: 0.75 }}
-            // viewport={{ once: true }}
-          >
+    <div className="relative top-0 flex h-full flex-col items-center justify-center rounded-lg p-4 select-none">
+      <div className="mx-auto grid size-full min-h-screen max-w-[1000px] gap-2 md:min-h-[770px] md:grid-cols-8 md:grid-rows-5 lg:gap-3">
+        <MouseParallaxChild className="md:col-span-2 md:row-span-4">
+          <DraggableMotion id="tech-stack">
             <TechStack />
           </DraggableMotion>
-          <DraggableMotion
-            id="status"
-            className="max-md:row-start-1 md:col-span-4 md:row-span-2"
-            // initial={{ translateY: isAboveMobile ? -50 : 0, opacity: 0 }}
-            // whileInView={{ translateY: 0, opacity: 1 }}
-            // transition={{ duration: 0.75 }}
-            // viewport={{ once: true }}
-          >
+        </MouseParallaxChild>
+        <MouseParallaxChild className="max-md:row-start-1 md:col-span-4 md:row-span-2">
+          <DraggableMotion id="status" className="size-full">
             <Status />
           </DraggableMotion>
-          <DraggableMotion
-            id="links"
-            className="max-md:row-start-2 md:col-span-2 md:row-span-1"
-            // initial={{ translateX: isAboveMobile ? 50 : 0, opacity: 0 }}
-            // whileInView={{ translateX: 0, opacity: 1 }}
-            // transition={{ duration: 0.75 }}
-            // viewport={{ once: true }}
-            onDragStateChange={handleDragStateChange}
-          >
+        </MouseParallaxChild>
+
+        <MouseParallaxChild className="max-md:row-start-2 md:col-span-2 md:row-span-1">
+          <DraggableMotion id="links" onDragStateChange={handleDragStateChange}>
             <MemoizedLinks
               currentContext={currentContext}
               setCurrentContext={setCurrentContext}
               isDragging={isDragging}
             />
           </DraggableMotion>
-          {/* <motion.div
+        </MouseParallaxChild>
+
+        {/* <motion.div
           className="md:col-span-2"
-          // initial={{ translateX: isAboveMobile ? 50 : 0, opacity: 0 }}
-          // whileInView={{ translateX: 0, opacity: 1 }}
-          // transition={{ duration: 0.75 }}
-          viewport={{ once: true }}
         >
           <ProjectComponent />
         </motion.div> */}
-          <DraggableMotion
-            id="daily-tool-stack"
-            className="md:col-span-4 md:row-span-4"
-            // initial={{ translateY: isAboveMobile ? 50 : 0, opacity: 0 }}
-            // whileInView={{ translateY: 0, opacity: 1 }}
-            // transition={{ duration: 0.75 }}
-            // viewport={{ once: true }}
-          >
+        <MouseParallaxChild className="md:col-span-4 md:row-span-4">
+          <DraggableMotion id="daily-tool-stack">
             <MemoizedDailyToolStack
               currentContext={currentContext}
               setCurrentContext={setCurrentContext}
             />
           </DraggableMotion>
-        </div>
+        </MouseParallaxChild>
       </div>
-    </>
+    </div>
   );
 }

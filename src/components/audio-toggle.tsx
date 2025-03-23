@@ -7,7 +7,7 @@ export function ThemeToggle() {
   const [isAudioPlaying, setIsAudioPlaying] = useState(false);
   const [isIndicatorActive, setIsIndicatorActive] = useState(false);
   const autoElementRef = useRef<HTMLAudioElement>(null);
-  const [audioPath, setAudioPath] = useState<string>("");
+  const [audioPath, setAudioPath] = useState<string>("/audio/audio-1.mp3");
 
   const toggleAudioIndicator = () => {
     setIsAudioPlaying((prev) => !prev);

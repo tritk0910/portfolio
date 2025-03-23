@@ -86,6 +86,7 @@ export default function DailyToolStack({
         <div className="relative row-span-1 size-full overflow-hidden rounded-xl max-md:hidden md:col-span-2 md:justify-self-start">
           <Image
             fill
+            sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover object-center transition hover:scale-125"
             alt="watch-tower"
             src="/imgs/watchtower.png"

@@ -1,3 +1,4 @@
+import ParallaxProvider from "@/providers/parallax-provider";
 import type { Metadata } from "next";
 import {
   Montserrat,
@@ -51,32 +52,17 @@ export const metadata: Metadata = {
   description: "Neo's portfolio.",
 };
 
-const randomizeVideoBackground = () => {
-  const urlPath = "/video/video-";
-  const randomNumber = Math.floor(Math.random() * 3) + 1;
-  return `${urlPath}${randomNumber}.mp4`;
-};
-
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className="no-scrollbar">
+    <html lang="en" suppressHydrationWarning className="">
       <body
         className={`${recursive.className} ${digital.variable} ${space_grotesk.variable} ${montserrat.variable} ${space_mono.variable} ${circular.variable} ${akira.variable} ${balatro.variable} antialiased`}
       >
-        {children}
-        <div className="fixed inset-0 -z-10 max-w-screen overflow-hidden">
-          <video
-            src={randomizeVideoBackground()}
-            muted
-            autoPlay
-            loop
-            className="size-full object-cover object-center opacity-50"
-          />
-        </div>
+        <ParallaxProvider>{children}</ParallaxProvider>
       </body>
     </html>
   );

@@ -8,7 +8,7 @@ export default function Template({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div>
+    <>
       <div
         id="banner-1"
         className="fixed top-0 left-0 z-[1000] min-h-screen w-1/4 bg-zinc-950"
@@ -26,6 +26,6 @@ export default function Template({ children }: { children: React.ReactNode }) {
         className="fixed top-0 left-3/4 z-[1000] min-h-screen w-1/4 bg-zinc-950"
       />
       {children}
-    </div>
+    </>
   );
 }
