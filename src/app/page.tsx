@@ -37,7 +37,7 @@ export default function Home() {
   }
 
   return (
-    <div className="relative top-0 flex h-full flex-col items-center justify-center rounded-lg p-4 select-none md:py-8">
+    <div className="relative top-0 flex h-full flex-col items-center justify-center rounded-lg px-1 py-4 select-none md:py-8">
       <div className="mx-auto grid size-full min-h-screen max-w-[1200px] gap-2 md:min-h-[770px] md:grid-cols-8 md:grid-rows-[repeat(auto-fit,minmax(50px,140px))] lg:gap-3">
         <MouseParallaxChild className="md:col-span-2 md:row-span-4">
           <DraggableMotion id="tech-stack">

@@ -29,7 +29,7 @@ export default function DailyToolStack({
     <>
       <div className="flex h-full flex-col items-center justify-center justify-items-center gap-2 gap-y-3 md:grid md:grid-flow-col md:grid-cols-5 md:grid-rows-7 md:justify-items-end">
         <Card
-          className="w-fit justify-self-center max-md:order-1 max-md:overflow-x-auto md:row-span-7"
+          className="w-fit justify-self-center overflow-y-hidden max-md:order-1 max-md:overflow-x-auto md:row-span-7"
           innerClassName="p-2 md:w-fit !h-fit md:!size-full flex items-center max-md:overflow-x-auto gap-2 overflow-visible"
         >
           <div className="grid gap-2 max-md:grid-cols-[repeat(6,minmax(0,3rem))] md:grid-rows-[repeat(6,minmax(0,3rem))] md:flex-col">
