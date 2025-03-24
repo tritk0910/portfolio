@@ -14,15 +14,21 @@ export const musicUrl = {
   year: "2017",
 };
 
+export const avatarUrl = "/imgs/avatar.jpg";
+
 export const techStacks: { [key: string]: string[] }[] = [
   {
     Frontend: [
       "React",
+      "React Native",
       "Next.js",
       "Shadcn",
+      "Tanstack Query",
       "Tailwindcss",
       "Framer-Motion",
-      "Tanstack Query",
+      "GSAP",
+      "ThreeJS",
+      "Spline",
     ],
     Backend: [".NET", "C#", "SignalR"],
     "Db & Services": [
@@ -34,6 +40,14 @@ export const techStacks: { [key: string]: string[] }[] = [
       "Postman",
       "Cloudinary",
     ],
+    Others: [
+      "Photoshop",
+      "After Effects",
+      "Premier Pro",
+      "Cinema 4D",
+      "Octane",
+      "Blender",
+    ],
   },
 ];
 
@@ -42,6 +56,7 @@ export const tools: {
   src: string;
   expandable?: boolean;
   invertable?: boolean;
+  color?: string;
 }[] = [
   { label: "VSCode", src: "/imgs/vscode.svg" },
   { label: "v0", src: "/imgs/v0.webp", invertable: true },
@@ -51,7 +66,11 @@ export const tools: {
     invertable: true,
   },
   { label: "Chatgpt", src: "/imgs/chatgpt.svg", invertable: true },
-  { label: "Postman", src: "/imgs/postman.png", expandable: true },
+  {
+    label: "Postman",
+    src: "/imgs/postman.png",
+    expandable: true,
+  },
   { label: "Docker", src: "/imgs/docker.png" },
   // { label: "Figma", src: "/imgs/figma.svg", invertable: true },
 ];

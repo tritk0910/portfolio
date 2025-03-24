@@ -46,7 +46,7 @@ function Draggable({ id, children, className, setIsDragging }: DraggableProps) {
       style={style}
       {...listeners}
       {...attributes}
-      className={cn("cursor-grab active:cursor-grabbing", className)}
+      className={cn("size-full cursor-grab active:cursor-grabbing", className)}
     >
       {children}
     </div>
@@ -93,7 +93,7 @@ export function DraggableMotion({
   return (
     <DndContext sensors={sensors} modifiers={[restrictToWindowEdges]}>
       <Draggable id={id} className={className} setIsDragging={setIsDragging}>
-        <div className="size-full">{children}</div>
+        {children}
       </Draggable>
     </DndContext>
   );

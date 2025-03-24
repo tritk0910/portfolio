@@ -28,7 +28,7 @@ export default function Links({
         open={hoveredButtonIndex !== null && !isDragging}
         delayDuration={0}
       >
-        <div className="pointer relative mx-auto flex gap-1 max-md:justify-center md:grid md:grid-cols-[repeat(3,60px)] md:grid-rows-[repeat(2,60px)]">
+        <div className="pointer relative mx-auto flex h-full w-fit gap-2 max-md:justify-center md:mr-auto md:ml-0 md:grid md:grid-cols-[repeat(3,minmax(60px,60px))] md:grid-rows-[repeat(auto-fit,minmax(60px,60px))]">
           <TooltipContent className="px-5 py-0">
             <p className="font-space text-lg font-extrabold lowercase">
               {hoveredButtonIndex !== null
@@ -38,13 +38,13 @@ export default function Links({
           </TooltipContent>
 
           <TooltipTrigger asChild>
-            <div className="size-[60px] overflow-hidden rounded-sm text-3xl leading-none font-extrabold whitespace-pre-line uppercase max-md:hidden">
+            <div className="overflow-hidden rounded-sm text-3xl leading-none font-extrabold whitespace-pre-line uppercase max-md:hidden">
               Lin{"\n"}ks.
             </div>
           </TooltipTrigger>
           {links.map(({ content, label }, index) => (
             <Card
-              className="max-md:size-[55px]"
+              className="size-full max-md:size-[55px]"
               key={index}
               onMouseEnter={() => setHoveredButtonIndex(index)}
               onMouseLeave={() => {

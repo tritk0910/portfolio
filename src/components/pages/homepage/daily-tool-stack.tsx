@@ -27,10 +27,10 @@ export default function DailyToolStack({
 
   return (
     <>
-      <div className="grid h-full justify-items-center gap-2 gap-y-3 md:grid-flow-col md:grid-cols-5 md:grid-rows-7 md:justify-items-end">
+      <div className="flex h-full flex-col items-center justify-center justify-items-center gap-2 gap-y-3 md:grid md:grid-flow-col md:grid-cols-5 md:grid-rows-7 md:justify-items-end">
         <Card
-          className="w-fit justify-self-center max-md:overflow-x-auto md:row-span-7"
-          innerClassName="p-2 md:w-fit size-full flex items-center max-md:overflow-x-auto gap-2"
+          className="w-fit justify-self-center max-md:order-1 max-md:overflow-x-auto md:row-span-7"
+          innerClassName="p-2 md:w-fit !h-fit md:!size-full flex items-center max-md:overflow-x-auto gap-2 overflow-visible"
         >
           <div className="grid gap-2 max-md:grid-cols-[repeat(6,minmax(0,3rem))] md:grid-rows-[repeat(6,minmax(0,3rem))] md:flex-col">
             {tools.map(({ label, src, invertable, expandable }, index) => (
@@ -41,7 +41,13 @@ export default function DailyToolStack({
                   setHoveredToolIndex(null);
                   setCurrentContext(label);
                 }}
-                className="aspect-square shrink-0 overflow-hidden rounded-lg bg-white opacity-90 transition-all duration-300 ease-in-out hover:scale-125"
+                className={cn(
+                  "aspect-square shrink-0 overflow-hidden rounded-lg bg-white opacity-90 transition-all duration-300 ease-in-out hover:scale-125 hover:shadow-[0_0_15px_rgba(255,255,255,0.7)]",
+                  {
+                    "hover:shadow-[0_0_15px_rgba(232,105,67,0.7)]":
+                      label === "Postman",
+                  },
+                )}
               >
                 <Image
                   className={cn("aspect-square p-1.5", {
@@ -57,17 +63,15 @@ export default function DailyToolStack({
             ))}
           </div>
         </Card>
-        <div className="row-span-2 row-start-1 w-full md:col-span-2">
+        <div className="max-md:order-start w-full md:col-span-2 md:row-span-2 md:row-start-1">
           <TooltipProvider>
             <Tooltip open={hoveredToolIndex !== null} delayDuration={0}>
               <div className="flex flex-col font-mono text-wrap break-words">
-                <p className="text-4xl leading-none font-extrabold uppercase">
+                <p className="text-4xl font-extrabold uppercase lg:text-5xl">
                   Daily
                 </p>{" "}
                 <TooltipTrigger asChild>
-                  <span className="font-space w-fit text-3xl leading-none">
-                    Tool
-                  </span>
+                  <span className="font-space w-fit text-4xl">Tool</span>
                 </TooltipTrigger>
                 <TooltipContent side="right" className="px-5 py-0">
                   <p className="font-space text-lg font-extrabold lowercase">
@@ -76,7 +80,7 @@ export default function DailyToolStack({
                       : currentContext}
                   </p>
                 </TooltipContent>
-                <p className="text-5xl leading-none font-extrabold text-nowrap uppercase">
+                <p className="text-5xl leading-none font-extrabold text-nowrap uppercase lg:text-6xl">
                   Stack
                 </p>
               </div>
@@ -92,12 +96,12 @@ export default function DailyToolStack({
             src="/imgs/watchtower.png"
           />
         </div>
-        <div className="group relative flex w-fit items-center justify-center overflow-hidden rounded-xl md:col-span-2 md:row-span-3 md:size-full">
+        <div className="group relative row-span-1 flex size-full items-center justify-center overflow-hidden rounded-xl max-md:order-2 max-md:min-h-[300px] md:col-span-2 md:row-span-3 md:size-full">
           <Image
-            width={700}
-            height={700}
+            fill
+            sizes="(max-width: 768px) 100vw, 100vw"
             alt="spotify"
-            className="scale-125 bg-cover bg-center"
+            className="object-cover object-center"
             src={musicUrl.thumbnail}
           />
           <a
@@ -112,7 +116,7 @@ export default function DailyToolStack({
             </div>
           </a>
         </div>
-        <div className="row-span-1 size-full rounded-xl md:col-span-2">
+        <div className="row-span-1 size-full rounded-xl max-md:order-3 md:col-span-2">
           <a
             href={musicUrl.url}
             target="_blank"
@@ -130,19 +134,13 @@ export default function DailyToolStack({
         <div className="row-span-4 size-full max-md:hidden md:col-span-2"></div>
         <TransitionLink
           href={"/timelines"}
-          className="relative row-span-3 flex size-full cursor-pointer items-center justify-center overflow-hidden rounded-xl transition-all hover:scale-95 max-md:min-h-[300px] md:col-span-2"
+          className="relative order-last row-span-3 flex size-full cursor-pointer items-center justify-center overflow-hidden rounded-xl transition-all hover:scale-95 max-md:min-h-[200px] md:col-span-2"
         >
           <p className="font-montserrat z-10 pr-2 text-center text-2xl font-bold tracking-tight text-white uppercase italic lg:text-3xl">
             Timelines
           </p>
           <Ripple mainCircleSize={80} mainCircleOpacity={0.4} />
         </TransitionLink>
-      </div>
-      <div className="mx-auto w-[80%] py-5 text-end md:hidden">
-        <div className="bg-muted-foreground dark:bg-muted h-px" />
-        <span className="text-muted-foreground dark:text-muted px-5 font-mono font-bold lowercase">
-          Peace out.
-        </span>
       </div>
     </>
   );

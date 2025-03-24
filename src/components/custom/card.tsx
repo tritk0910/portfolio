@@ -20,7 +20,12 @@ export default function Card({
         className,
       )}
     >
-      <div className={cn("size-full rounded-xl border", innerClassName)}>
+      <div
+        className={cn(
+          "size-full overflow-hidden rounded-xl border",
+          innerClassName,
+        )}
+      >
         {children}
       </div>
     </div>

@@ -26,7 +26,7 @@ export default function ParallaxProvider({ children }: PropsWithChildren) {
     <MouseParallaxContainer
       globalFactorX={0.02}
       globalFactorY={0.02}
-      className="relative top-0 flex min-h-screen flex-col items-center justify-center rounded-lg p-4"
+      className="relative top-0 flex min-h-screen flex-col items-center justify-center rounded-lg"
     >
       <>{children}</>
       <MouseParallaxChild
@@ -40,7 +40,7 @@ export default function ParallaxProvider({ children }: PropsWithChildren) {
           muted
           autoPlay
           loop
-          className="object-cover object-center opacity-0 transition-all duration-500"
+          className="size-full object-cover object-center opacity-0 transition-all duration-500"
           onLoadedData={(e) => {
             e.currentTarget.classList.replace("opacity-0", "opacity-50");
           }}

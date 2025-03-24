@@ -1,16 +1,21 @@
 "use client";
-import { format, isAvailableForWork } from "@/lib/constant";
+import { avatarUrl, format, isAvailableForWork } from "@/lib/constant";
 import { cn } from "@/lib/utils";
 import dayjs from "dayjs";
 import { Download } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { ThemeToggle } from "../../audio-toggle";
 import Card from "../../custom/card";
 import { MorphingText } from "../../magicui/morphing-text";
-import { ThemeToggle } from "../../audio-toggle";
 
-export default function Status() {
+export default function Status({
+  setIsModalOpen,
+}: {
+  setIsModalOpen: Dispatch<SetStateAction<boolean>>;
+}) {
   const [currentTime, setCurrentTime] = useState<string | null>(null);
+
   const downloadCv = () => {
     const cv = "/downloads/cv.pdf";
     const link = document.createElement("a");
@@ -35,9 +40,10 @@ export default function Status() {
               <Image
                 width={50}
                 height={50}
-                src={"/imgs/avatar.jpg"}
+                src={avatarUrl}
                 alt="avatar"
-                className="rounded-full"
+                className="cursor-pointer rounded-full transition-transform hover:scale-105"
+                onClick={() => setIsModalOpen(true)}
               />
               <div className="flex flex-col leading-none">
                 <p className="text-lg font-bold">Neo.</p>
